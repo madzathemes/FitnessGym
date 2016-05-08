@@ -1,0 +1,22 @@
+.updated.woocommerce-message,
+.rs-update-notice-wrap, 
+.eg-update-notice-wrap,
+.post-type-page #mm_general,
+.layerslider_notice,
+#vc_logo,
+.updated.fade,
+.vc_teaser,
+.ult_activate{ display: none!important; }
+.mt-patterns { width: 50px!important; height: 50px!important; }
+
+
+/* OPTION TREE */
+
+#option-tree-header { display: none!important; }
+#option-tree-sub-header { border: none!important; background: none!important; box-shadow:none!important}
+#option-tree-settings-api > .ui-tabs { border-top: 1px solid silver!important;}
+
+
+/* CUSTOMIZER */
+
+.customize-red { color:red; }

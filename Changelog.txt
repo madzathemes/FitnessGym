@@ -1,0 +1,96 @@
+
+= V2.9 - 15.04.2016 =
+ - Added: Compatibility with WP 4.5
+ - Fixed: shortcodes error
+ - Updated: Visual Composer Plugin
+ - Minor bug fixes.
+
+= V2.8 - 04.04.2016 =
+FIX madzathemes plugin error
+UPDATED Visual Composer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+*Minor bug fixes.
+
+= V2.7 - 19.01.2016 =
+FIX madzathemes plugin error
+UPDATED Visual Composer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+*Minor bug fixes.
+
+
+= V2.6 - 08.12.2015 =
+FIX shortcode errors
+FIX WP_Widget errors
+FIX WooCommerce compatible
+UPDATED Visual Composer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+*Minor bug fixes.
+
+
+= V2.5 - 06.10.2015 =
+UPDATED Visual Composer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+*Minor bug fixes.
+
+= V2.4 - 07.07.2015 =
+WordPress 4.3 ready
+UPDATED Option Tree
+UPDATED Visual Composer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+*Minor bug fixes.
+
+= V2.3 - 07.07.2015 =
+IMPORTANT - prettyPhoto Security fix
+FIX - Login Form Style 
+UPDATED Option Tree
+UPDATED Visual Composer Plugin
+UPDATED LayerSlider Plugin
+UPDATED PrettyPhoto Plugin
+
+= V2.1 - 01.04.2015 =
+
+- style.css
+- woocommerce/
+- header.php
+- functions/functions-hook.php
+- css/admin.css
+
+FIX One Click Auto Install
+FIX Italic font style
+FIX HTML Validation
+FIX Sub sub menu
+FIX Admin option for background patterns size
+UPDATED VisualComposer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+*Minor bug fixes.
+
+
+= V2.0 - 28.01.2015 =
+
+- style.css
+- functions.php
+- style.php
+- header.php
+- images/logo.png
+- functions/js/modernizr.custom.js
+- functions/class-widget.php
+- functions/import/
+- all_plugins/
+- option-tree/
+- woocommerce/
+
+NEW WooCommerce Shop
+NEW One Click Auto Install
+UPDATED VisualComposer Plugin
+UPDATED LayerSlider Plugin
+UPDATED Timetable Plugin
+UPDATED OptionTree
+FIXED 3D button effect for Firefox
+FIXED Default logo sample
+*Minor bug fixes.
