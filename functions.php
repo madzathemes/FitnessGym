@@ -14,7 +14,7 @@ if ( get_stylesheet_directory() == get_template_directory() ) {
 define('MADZA_FILEPATH', get_template_directory());
 define('MADZA_DIRECTORY', get_template_directory_uri());
 
- 
+
 
 
 
@@ -22,12 +22,12 @@ define('MADZA_DIRECTORY', get_template_directory_uri());
 /* Function
 /*-----------------------------------------------------------------------------------*/
 
-include_once ('functions/class-widget.php'); 
-include_once ('functions/functions-widget.php');  
-include_once ('functions/functions-footer.php'); 
-include_once ('functions/functions-homepage.php'); 	
-include_once ('functions/functions-slider.php'); 
-include_once ('functions/functions-hooks.php'); 
+include_once ('functions/class-widget.php');
+include_once ('functions/functions-widget.php');
+include_once ('functions/functions-footer.php');
+include_once ('functions/functions-homepage.php');
+include_once ('functions/functions-slider.php');
+include_once ('functions/functions-hooks.php');
 include_once ('functions/functions-comment.php');
 include_once ('functions/functions-shortcodes.php');
 include_once ('functions/functions-general.php');
@@ -43,12 +43,12 @@ add_filter( 'woocommerce_enqueue_styles', '__return_false' );
 function madza_theme_setup() {
 
 	add_editor_style();
-	
+
 	add_theme_support( 'post-formats', array('image', 'video', 'link', 'quote', 'gallery' ) );
-	
+
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'woocommerce' );
-	
+
 	load_theme_textdomain( 'madza_translate', get_template_directory() . '/languages' );
 	$locale = get_locale();
 	$locale_file = get_template_directory() . "/languages/$locale.php";
@@ -56,20 +56,20 @@ function madza_theme_setup() {
 		require_once( $locale_file );
 
 	set_post_thumbnail_size( 999, 999, true );
-	
+
 	register_nav_menus( array(
 		'primary' => __( 'Header Navigation', 'madza_translate' ),
 	) );
-	
+
 	register_nav_menus( array(
 		'select_menu' => __( 'Responsive Header Navigation', 'madza_translate' ),
 	) );
-	
+
 	register_nav_menus( array(
 		'footer_menu' => __( 'Footer Navigation', 'madza_translate' ),
 	) );
-	
-	
+
+
 
 }
 
@@ -99,7 +99,7 @@ add_filter( 'ot_theme_mode', '__return_true' );
  */
 include_once( 'option-tree/ot-loader.php' );
 include_once( 'option-tree/theme-options.php' );
-	
+
 /*-----------------------------------------------------------------------------------*/
 /* Default Options
 /*-----------------------------------------------------------------------------------*/
@@ -113,35 +113,35 @@ function madzathemes_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'madzathemes_page_menu_args' );
 
 function new_excerpt_length( $length ) {
-	
+
 	if(ot_get_option("blog_content_lenght")!="") { $lenghts = ot_get_option("blog_content_lenght"); } else { $lenghts = "100"; }
 	return $lenghts;
-	
+
 }
 add_filter( 'excerpt_length', 'new_excerpt_length' );
 
 function get_required_page($page = ''){
 	global $wpdb;
- 
-	$result = wp_cache_get($page . '-guid', __FUNCTION__);	
- 
-	if($result === false) 
+
+	$result = wp_cache_get($page . '-guid', __FUNCTION__);
+
+	if($result === false)
 	{
 		$result = $wpdb->get_var("SELECT p.guid
 					FROM $wpdb->posts p
 					WHERE p.post_status = 'publish'
 					AND p.post_title = '{$page}' ");
- 
-		if ($result) 
+
+		if ($result)
 		{
 			wp_cache_add($page . '-guid', $result,  __FUNCTION__);
 		}
 	}
-	return $result;		
+	return $result;
 }
 
 if (function_exists('add_theme_support')) {
-	add_theme_support( 'post-thumbnails' ); 
+	add_theme_support( 'post-thumbnails' );
 }
 
 
@@ -159,18 +159,18 @@ function my_custom_login_logo() {
 
 add_action('login_head', 'my_custom_login_logo');
 
-function madza_sidebar_function() { 
-	global $post;	    
+function madza_sidebar_function() {
+	global $post;
     $args = array(
     	'post_type'=> 'mt_sidebar',
         'order' => 'ASC',
-        'posts_per_page' => 999, 
-        'orderby' => 'date', 
+        'posts_per_page' => 999,
+        'orderby' => 'date',
         'order' => 'DSC',
     );
-    
+
     query_posts($args); while ( have_posts() ) : the_post();
-    
+
 			register_sidebar(array(
 			  'name' => __(get_the_title()),
 			  'id' => 'sidebar-id-'.$post->ID.'',
@@ -180,22 +180,22 @@ function madza_sidebar_function() {
 				'before_title' => '<h4 class="widget_h"><span>',
 				'after_title' => '</span></h4>',
 			));
-			
-	 endwhile; wp_reset_query(); 
-} 
+
+	 endwhile; wp_reset_query();
+}
 add_action('madza_sidebar_function', 'madza_sidebar_function');
 
 madza_sidebar_function();
 
 
 add_action('admin_init','optionscheck_change_santiziation', 100);
- 
+
 function optionscheck_change_santiziation() {
     remove_filter( 'of_sanitize_textarea', 'of_sanitize_textarea' );
     add_filter( 'of_sanitize_textarea', 'custom_sanitize_textarea' );
 }
- 
- 
+
+
 function custom_sanitize_textarea($input) {
     global $allowedposttags;
     $custom_allowedtags["embed"] = array(
@@ -207,7 +207,7 @@ function custom_sanitize_textarea($input) {
           "width" => array()
       );
       $custom_allowedtags["script"] = array();
- 
+
       $custom_allowedtags = array_merge($custom_allowedtags, $allowedposttags);
       $output = wp_kses( $input, $custom_allowedtags);
     return $output;
@@ -220,7 +220,7 @@ function custom_sanitize_textarea($input) {
  * Include the TGM_Plugin_Activation class.
  */
 require_once dirname( __FILE__ ) . '/all_plugins/class-tgm-plugin-activation.php';
- 
+
 add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
 /**
  * Register the required plugins for this theme.
@@ -235,13 +235,13 @@ add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
  * TGM_Plugin_Activation class constructor.
  */
 function my_theme_register_required_plugins() {
- 
+
     /**
      * Array of plugin arrays. Required keys are name, slug and required.
      * If the source is NOT from the .org repo, then source is also required.
      */
     $plugins = array(
- 
+
         // This is an example of how to include a plugin pre-packaged with a theme
         array(
             'name'                  => 'MadzaThemes.com', // The plugin name
@@ -263,7 +263,7 @@ function my_theme_register_required_plugins() {
             'slug'			=> 'js_composer', // The plugin slug (typically the folder name)
             'source'			=> get_stylesheet_directory() . '/all_plugins/js_composer.zip', // The plugin source
             'required'			=> true, // If false, the plugin is only 'recommended' instead of required
-            'version'			=> '4.11.1', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'			=> '4.12', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'		=> false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'	=> false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'		=> '', // If set, overrides default API URL and points to an external URL
@@ -273,7 +273,7 @@ function my_theme_register_required_plugins() {
             'slug'			=> 'layerslidessr', // The plugin slug (typically the folder name)
             'source'			=> get_stylesheet_directory() . '/all_plugins/LayerSlider.zip', // The plugin source
             'required'			=> true, // If false, the plugin is only 'recommended' instead of required
-            'version'			=> '5.3.2', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'			=> '5.6.9', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'		=> false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'	=> false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'		=> '', // If set, overrides default API URL and points to an external URL
@@ -288,17 +288,17 @@ function my_theme_register_required_plugins() {
             'slug'			=> 'timetable', // The plugin slug (typically the folder name)
             'source'			=> get_stylesheet_directory() . '/all_plugins/timetable.zip', // The plugin source
             'required'			=> true, // If false, the plugin is only 'recommended' instead of required
-            'version'			=> '3.0', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'			=> '3.7', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'		=> false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'	=> false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'		=> '', // If set, overrides default API URL and points to an external URL
         )
- 
+
     );
- 
+
     // Change this to your theme text domain, used for internationalising strings
     $theme_text_domain = 'tgmpa';
- 
+
     /**
      * Array of configuration settings. Amend each line as needed.
      * If you want the default strings to be available under your own theme domain,
@@ -334,9 +334,9 @@ function my_theme_register_required_plugins() {
             'complete'                                  => __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
         )
     );
- 
+
     tgmpa( $plugins, $config );
- 
+
 }
 
 if(function_exists('vc_set_as_theme')) vc_set_as_theme();
@@ -359,7 +359,7 @@ function mt_paging_nav() {
 		return;
 	?>
 	<nav class="navigation paging-navigation" role="navigation">
-		
+
 		<div class="nav-links">
 
 			<?php if ( get_next_posts_link() ) : ?>
@@ -388,7 +388,7 @@ function themename_customize_register($wp_customize){
 
 	class Example_Customize_Textarea_Control extends WP_Customize_Control {
     public $type = 'textarea';
- 
+
     public function render_content() {
 	        ?>
 	        <label>
@@ -398,27 +398,27 @@ function themename_customize_register($wp_customize){
 	        <?php
 	    }
 	}
-	
+
 	//	==================================================
     //  =============================
-    //  = ==== General Options    
+    //  = ==== General Options
     //  =============================
-      
+
     $wp_customize->add_section('themename_general_mt', array(
         'title'    => 'General Options',
         'priority' => 121,
     ));
-    
-    
+
+
     //  =============================
     //  = Favicon             =
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_favicon]', array(
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'mt_favicon', array(
         'label'    => __('Upload Favicon (16px x 16px Png/Gif image)', 'themename'),
         'section'  => 'themename_general_mt',
@@ -432,7 +432,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'responsive_yes',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'mt_responsive', array(
         'settings' => 'themename_theme_options[mt_responsive]',
@@ -446,16 +446,16 @@ function themename_customize_register($wp_customize){
     ));
 
 
-	
+
 	//  =============================
-    //  = Breadcrumb  
+    //  = Breadcrumb
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_breadcrumb]', array(
         'capability' => 'edit_theme_options',
         'default'        => "1",
         'type'       => 'option',
     ));
- 
+
     $wp_customize->add_control('mt_breadcrumb', array(
         'settings' => 'themename_theme_options[mt_breadcrumb]',
         'label'    => 'Display Breadcrumb',
@@ -466,40 +466,40 @@ function themename_customize_register($wp_customize){
             '2' => 'Off',
         ),
     ));
-    
-    
+
+
     //  =============================
-    //  = Custom Css  
+    //  = Custom Css
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_css]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control( new Example_Customize_Textarea_Control( $wp_customize, 'mt_css', array(
         'label'      => 'Custom CSS',
         'section'    => 'themename_general_mt',
         'settings'   => 'themename_theme_options[mt_css]',
     )));
-    
+
 
 
 
 
 	//	==================================================
     //  =============================
-    //  = ==== Logo Options    
+    //  = ==== Logo Options
     //  =============================
-      
+
     $wp_customize->add_section('themename_logo', array(
         'title'    => 'Logo',
         'priority' => 123,
     ));
-    
-    
+
+
     //  =============================
     //  = Logo             =
     //  =============================
@@ -507,15 +507,15 @@ function themename_customize_register($wp_customize){
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
         'default' => get_template_directory_uri().'/images/fitnessgym.png',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'mt_logo', array(
         'label'    => __('Upload Logo', 'themename'),
         'section'  => 'themename_logo',
         'settings' => 'themename_theme_options[mt_logo]',
     )));
-    
+
     //  =============================
     //  = Logo Responsive            =
     //  =============================
@@ -523,94 +523,94 @@ function themename_customize_register($wp_customize){
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
         'default' => get_template_directory_uri().'/images/fitnessgym.png',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'mt_logo_r', array(
         'label'    => __('Upload Responsive Logo', 'themename'),
         'section'  => 'themename_logo',
         'settings' => 'themename_theme_options[mt_logo_r]',
     )));
-    
+
     //  =============================
-    //  = Logo Widht   
+    //  = Logo Widht
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_logo_w]', array(
         'default'        => '154',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control('mt_logo_w', array(
         'label'      => 'Logo Width (px)',
         'section'    => 'themename_logo',
         'settings'   => 'themename_theme_options[mt_logo_w]',
     ));
-    
+
     //  =============================
-    //  = Logo Height   
+    //  = Logo Height
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_logo_h]', array(
         'default'        => '50',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control('mt_logo_h', array(
         'label'      => 'Logo Height (px)',
         'section'    => 'themename_logo',
         'settings'   => 'themename_theme_options[mt_logo_h]',
     ));
-    
+
     //  =============================
-    //  = Logo margin Top   
+    //  = Logo margin Top
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_logo_t]', array(
         'default'        => '15',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control('mt_logo_t', array(
         'label'      => 'Logo Margin Top (px)',
         'section'    => 'themename_logo',
         'settings'   => 'themename_theme_options[mt_logo_t]',
     ));
-    
-    
-    
-    
-    
+
+
+
+
+
     //	==================================================
     //  =============================
-    //  = ==== Header Options    
+    //  = ==== Header Options
     //  =============================
-      
-   
+
+
     //  =============================
-    //  = Menu fixed 
+    //  = Menu fixed
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_menu_fix]', array(
     	'default'        => "1",
         'capability' => 'edit_theme_options',
         'type'       => 'option',
     ));
- 
+
     $wp_customize->add_control('mt_menu_fix', array(
         'settings' => 'themename_theme_options[mt_menu_fix]',
         'label'    => 'Fixed Menu',
         'section'  => 'themename_header',
         'type'     => 'checkbox',
     ));
-    
-    
-    
+
+
+
     //  =============================
     //  = Header Style  	    =
     //  =============================
@@ -618,7 +618,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'style_3',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'mt_header_s', array(
         'settings' => 'themename_theme_options[mt_header_s]',
@@ -632,106 +632,106 @@ function themename_customize_register($wp_customize){
             'style_4' => 'Style 4',
         ),
     ));
-    
-   
-    
-  
+
+
+
+
     //  =============================
-    //  = Header Button name   
+    //  = Header Button name
     //  =============================
    // $wp_customize->add_setting('themename_theme_options[mt_header_bn]', array(
    //     'default'        => 'Make an Appointment',
    //     'capability'     => 'edit_theme_options',
    //     'type'           => 'option',
-        
- 
+
+
    // ));
- 
+
    // $wp_customize->add_control('mt_header_bn', array(
    //     'label'      => 'Button Name',
    //     'section'    => 'themename_header',
    //     'settings'   => 'themename_theme_options[mt_header_bn]',
    // ));
-    
-   
+
+
  //  =============================
-    //  = Header Button url   
+    //  = Header Button url
     //  =============================
    // $wp_customize->add_setting('themename_theme_options[mt_header_bu]', array(
    //     'default'        => "http://www.themeforest.net",
    //     'capability'     => 'edit_theme_options',
    //     'type'           => 'option',
-        
- 
+
+
    // ));
- 
+
    // $wp_customize->add_control('mt_header_bu', array(
    //     'label'      => 'Button URL',
    //     'section'    => 'themename_header',
    //     'settings'   => 'themename_theme_options[mt_header_bu]',
    // ));
-    
-    
-       
+
+
+
 	//  =============================
-    //  = Menu right area   
+    //  = Menu right area
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_header_ep]', array(
     	'default'        => "1",
         'capability' => 'edit_theme_options',
         'type'       => 'option',
     ));
- 
+
     $wp_customize->add_control('mt_header_ep', array(
         'settings' => 'themename_theme_options[mt_header_ep]',
         'label'    => 'Display Header Right area',
         'section'  => 'themename_header',
         'type'     => 'checkbox',
     ));
-    
-    
-    
 
-    
+
+
+
+
     //  =============================
-    //  = Phone area  
+    //  = Phone area
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_header_phone]', array(
         'default'        => '<i class="fa fa-phone"></i>  Call Us: <strong>+371 2 200 055 99</strong>',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control( new Example_Customize_Textarea_Control( $wp_customize, 'mt_header_phone', array(
         'label'      => 'Phone area',
         'section'    => 'themename_header',
         'settings'   => 'themename_theme_options[mt_header_phone]',
     )));
-    
-    
 
-    
-    
+
+
+
+
         //  =============================
-    //  = Header email   
+    //  = Header email
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_header_email]', array(
         'default'        => '<i class="fa fa-envelope"></i> your@domain.com',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control( new Example_Customize_Textarea_Control( $wp_customize, 'mt_header_email', array(
         'label'      => 'E-mail area',
         'section'    => 'themename_header',
         'settings'   => 'themename_theme_options[mt_header_email]',
     )));
-    
-    
+
+
      //  =============================
     //  = Top area seo text
     //  =============================
@@ -739,27 +739,27 @@ function themename_customize_register($wp_customize){
         'default'        => 'Great text area for SEO (Google, Yahoo, Bing)',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control( new Example_Customize_Textarea_Control( $wp_customize, 'mt_header_seo', array(
         'label'      => 'Header SEO text',
         'section'    => 'themename_header',
         'settings'   => 'themename_theme_options[mt_header_seo]',
     )));
-    
-    
-    
-    
-    
+
+
+
+
+
     $wp_customize->add_section('themename_color_scheme', array(
         'title'    => __('Style Options', 'themename'),
         'priority' => 125,
     ));
- 
- 
- 
+
+
+
      //  =============================
     //  = Color Picker              =
     //  =============================
@@ -768,20 +768,20 @@ function themename_customize_register($wp_customize){
         'sanitize_callback' => 'sanitize_hex_color',
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, 'default_color', array(
         'label'    => __('Default Color', 'themename'),
         'section'  => 'themename_color_scheme',
         'settings' => 'default_color',
     )));
-    
-    
-   
- 
- 
- 
+
+
+
+
+
+
     //  =============================
     //  = Radio Input               =
     //  =============================
@@ -790,7 +790,7 @@ function themename_customize_register($wp_customize){
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
     ));
- 
+
     $wp_customize->add_control('themename_layout_style', array(
         'label'      => __('Layout Style', 'themename'),
         'section'    => 'themename_color_scheme',
@@ -801,12 +801,12 @@ function themename_customize_register($wp_customize){
             'box' => 'Boxed',
         ),
     ));
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
    //  =============================
     //  = Color Picker              =
     //  =============================
@@ -815,44 +815,44 @@ function themename_customize_register($wp_customize){
         'sanitize_callback' => 'sanitize_hex_color',
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, 'bg_default_color', array(
         'label'    => __('Background Color', 'themename'),
         'section'  => 'themename_color_scheme',
         'settings' => 'bg_default_color',
     )));
- 
- 
 
- 
- 
+
+
+
+
     //  =============================
     //  = Image Upload              =
     //  =============================
     $wp_customize->add_setting('themename_theme_options[image_upload_test]', array(
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'image_upload_test', array(
         'label'    => __('Upload Background Image', 'themename'),
         'section'  => 'themename_color_scheme',
         'settings' => 'themename_theme_options[image_upload_test]',
     )));
- 
-    
+
+
     //  =============================
     //  = Image Upload              =
     //  =============================
     $wp_customize->add_setting('themename_theme_options[image_upload_test2]', array(
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'image_upload_test2', array(
         'label'    => __('Upload Background Title Image', 'themename'),
         'section'  => 'themename_color_scheme',
@@ -862,8 +862,8 @@ function themename_customize_register($wp_customize){
 
 
 
- 
-    
+
+
     //  =============================
     //  = Background Repeat  	    =
     //  =============================
@@ -871,7 +871,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'none',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'example_select_box', array(
         'settings' => 'themename_theme_options[background_repeat]',
@@ -888,7 +888,7 @@ function themename_customize_register($wp_customize){
             'inherit' => 'Inherit',
         ),
     ));
-    
+
     //  =============================
     //  = Background Attachment  	    =
     //  =============================
@@ -896,7 +896,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'none',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'example_select_box2', array(
         'settings' => 'themename_theme_options[background_attachment]',
@@ -910,7 +910,7 @@ function themename_customize_register($wp_customize){
             'inherit' => 'Inherit',
         ),
     ));
-    
+
     //  =============================
     //  = Background Position  	    =
     //  =============================
@@ -918,7 +918,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'none',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'example_select_box3', array(
         'settings' => 'themename_theme_options[background_position]',
@@ -938,20 +938,20 @@ function themename_customize_register($wp_customize){
             'right bottom' => 'Right Bottom',
         ),
     ));
-    
-    
+
+
       //	==================================================
     //  =============================
-    //  = ==== Title    
+    //  = ==== Title
     //  =============================
-      
+
     $wp_customize->add_section('themename_title', array(
         'title'    => __('Title', 'themename'),
         'priority' => 129,
     ));
-	
-    
-    
+
+
+
      //  =============================
     //  = Color Picker              =
     //  =============================
@@ -960,35 +960,35 @@ function themename_customize_register($wp_customize){
         'sanitize_callback' => 'sanitize_hex_color',
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, 'bg_default_color_title', array(
         'label'    => __('Title Background Color', 'themename'),
         'section'  => 'themename_title',
         'settings' => 'bg_default_color_title',
     )));
- 
- 
 
- 
- 
+
+
+
+
     //  =============================
     //  = Image Upload              =
     //  =============================
     $wp_customize->add_setting('themename_theme_options[image_upload_test_title]', array(
         'capability'        => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'image_upload_test_title', array(
         'label'    => __('Upload Title Background Image', 'themename'),
         'section'  => 'themename_title',
         'settings' => 'themename_theme_options[image_upload_test_title]',
     )));
-    
-    
+
+
     //  =============================
     //  = Background Repeat  	    =
     //  =============================
@@ -996,7 +996,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'none',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'example_select_box', array(
         'settings' => 'themename_theme_options[background_repeat_title]',
@@ -1012,7 +1012,7 @@ function themename_customize_register($wp_customize){
             'inherit' => 'Inherit',
         ),
     ));
-    
+
     //  =============================
     //  = Background Attachment  	    =
     //  =============================
@@ -1020,7 +1020,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'none',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'example_select_box2', array(
         'settings' => 'themename_theme_options[background_attachment_title]',
@@ -1034,7 +1034,7 @@ function themename_customize_register($wp_customize){
             'inherit' => 'Inherit',
         ),
     ));
-    
+
     //  =============================
     //  = Background Position  	    =
     //  =============================
@@ -1042,7 +1042,7 @@ function themename_customize_register($wp_customize){
         'default'        => 'none',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'example_select_box3', array(
         'settings' => 'themename_theme_options[background_position_title]',
@@ -1062,104 +1062,104 @@ function themename_customize_register($wp_customize){
             'right bottom' => 'Right Bottom',
         ),
     ));
- 
-    
-    
-    
 
 
-  
+
+
+
+
+
     //	==================================================
     //  =============================
-    //  = ==== Fonts    
+    //  = ==== Fonts
     //  =============================
-      
+
     $wp_customize->add_section('themename_fonts', array(
         'title'    => __('Fonts', 'themename'),
         'priority' => 130,
     ));
-	
-	
+
+
 	//  =============================
-    //  = Google Font name    
+    //  = Google Font name
     //  =============================
     $wp_customize->add_setting('themename_theme_options[font_name]', array(
         'default'        => 'Open+Sans:300,400,600,700',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control('mt_google_font_name', array(
         'label'      => 'Google Font Name',
         'section'    => 'themename_fonts',
         'settings'   => 'themename_theme_options[font_name]',
     ));
- 
-    
+
+
     //  =============================
-    //  = Google Font name    
+    //  = Google Font name
     //  =============================
     $wp_customize->add_setting('themename_theme_options[font_css]', array(
         'default'        => "font-family: 'Open Sans', sans-serif;",
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
- 
+
     $wp_customize->add_control('mt_google_font_css', array(
         'label'      => 'Google Font CSS',
         'section'    => 'themename_fonts',
         'settings'   => 'themename_theme_options[font_css]',
     ));
-    
-    
-    
+
+
+
     //	==================================================
     //  =============================
-    //  = ==== Footer    
+    //  = ==== Footer
     //  =============================
-      
+
     $wp_customize->add_section('themename_footer', array(
         'title'    => 'Footer',
         'priority' => 131,
     ));
-	
+
 	//  =============================
-    //  = Footer Top   
+    //  = Footer Top
     //  =============================
     $wp_customize->add_setting('themename_theme_options[footer_top]', array(
     	'default'        => "1",
         'capability' => 'edit_theme_options',
         'type'       => 'option',
     ));
- 
+
     $wp_customize->add_control('mt_footer_top', array(
         'settings' => 'themename_theme_options[footer_top]',
         'label'    => 'Display Top Footer',
         'section'  => 'themename_footer',
         'type'     => 'checkbox',
     ));
-    
-    
+
+
     //  =============================
-    //  = Footer Bottom   
+    //  = Footer Bottom
     //  =============================
     $wp_customize->add_setting('themename_theme_options[footer_bottom]', array(
         'capability' => 'edit_theme_options',
         'default'        => "1",
         'type'       => 'option',
     ));
- 
+
     $wp_customize->add_control('mt_footer_bottom', array(
         'settings' => 'themename_theme_options[footer_bottom]',
         'label'    => 'Display Bottom Footer',
         'section'  => 'themename_footer',
         'type'     => 'checkbox',
     ));
-    
-    
+
+
     //  =============================
     //  = Footer Top Columns  	    =
     //  =============================
@@ -1167,7 +1167,7 @@ function themename_customize_register($wp_customize){
         'default'        => '2_4',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
- 
+
     ));
     $wp_customize->add_control( 'mt_footer_columns', array(
         'settings' => 'themename_theme_options[footer_columns]',
@@ -1183,40 +1183,40 @@ function themename_customize_register($wp_customize){
             '4_2' => '4/2',
         ),
     ));
-    
-	
+
+
 	//  =============================
-    //  = Copyright   
+    //  = Copyright
     //  =============================
     $wp_customize->add_setting('themename_theme_options[copyright_text]', array(
         'default'        => 'Copyright 2013. Powered by WordPress Theme. By M.Bitenieks',
         'capability'     => 'edit_theme_options',
         'type'           => 'option',
-        
- 
+
+
     ));
- 
+
     $wp_customize->add_control( new Example_Customize_Textarea_Control( $wp_customize, 'mt_copyright_text', array(
         'label'      => 'Copyright Text',
         'section'    => 'themename_footer',
         'settings'   => 'themename_theme_options[copyright_text]',
     )));
-    
-    
-    
+
+
+
 	//	==================================================
     //  =============================
-    //  = ==== Social Icons    
+    //  = ==== Social Icons
     //  =============================
-      
+
     $wp_customize->add_section('themename_icons', array(
         'title'    => __('Social Icons', 'themename'),
         'priority' => 140,
     ));
-	
-	
+
+
 	//  =============================
-    //  = Google Font name    
+    //  = Google Font name
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_icon_facebook]', array(
         'default'        => '#',
@@ -1228,7 +1228,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_facebook]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_twitter]', array(
         'default'        => '#',
         'capability'     => 'edit_theme_options',
@@ -1239,7 +1239,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_twitter]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_vimeo]', array(
         'default'        => '#',
         'capability'     => 'edit_theme_options',
@@ -1250,7 +1250,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_vimeo]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_youtube]', array(
         'default'        => '#',
         'capability'     => 'edit_theme_options',
@@ -1261,7 +1261,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_youtube]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_linkedin]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1272,7 +1272,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_linkedin]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_gplus]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1283,7 +1283,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_gplus]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_dribble]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1294,7 +1294,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_dribble]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_skype]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1305,9 +1305,9 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_skype]',
     ));
-    
-  
-    
+
+
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_pinterest]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1318,7 +1318,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_pinterest]',
     ));
-    
+
     $wp_customize->add_setting('themename_theme_options[mt_icon_rss]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1329,22 +1329,22 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_icons',
         'settings'   => 'themename_theme_options[mt_icon_rss]',
     ));
-    
-    
-    
+
+
+
     //	==================================================
     //  =============================
-    //  = ==== Rewrite CPT    
+    //  = ==== Rewrite CPT
     //  =============================
-      
+
     $wp_customize->add_section('themename_rewrite', array(
         'title'    => __('Rewrite CPT Slug', 'themename'),
         'priority' => 141,
     ));
-	
-	
+
+
 	//  =============================
-    //  = CPT doctor    
+    //  = CPT doctor
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_rewrite_doctor]', array(
         'default'        => '',
@@ -1356,10 +1356,10 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite',
         'settings'   => 'themename_theme_options[mt_rewrite_doctor]',
     ));
-    
-   
+
+
     //  =============================
-    //  = CPT Services    
+    //  = CPT Services
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_rewrite_services]', array(
         'default'        => '',
@@ -1371,10 +1371,10 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite',
         'settings'   => 'themename_theme_options[mt_rewrite_services]',
     ));
-    
-   
+
+
 	//  =============================
-    //  = CPT Portfolio    
+    //  = CPT Portfolio
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_rewrite_portfolio]', array(
         'default'        => '',
@@ -1386,11 +1386,11 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite',
         'settings'   => 'themename_theme_options[mt_rewrite_portfolio]',
     ));
-    
-    
-    
+
+
+
 	//  =============================
-    //  = CPT Causes    
+    //  = CPT Causes
     //  =============================
     $wp_customize->add_setting('themename_theme_options[mt_rewrite_causes]', array(
         'default'        => '',
@@ -1402,20 +1402,20 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite',
         'settings'   => 'themename_theme_options[mt_rewrite_causes]',
     ));
-   
+
 
 
 	 //	==================================================
     //  =============================
-    //  = ==== Rewrite CPT    
+    //  = ==== Rewrite CPT
     //  =============================
-      
+
     $wp_customize->add_section('themename_rewrite_n', array(
         'title'    => __('Rewrite CPT Name', 'themename'),
         'priority' => 142,
     ));
-	
-	
+
+
 	$wp_customize->add_setting('themename_theme_options[mt_rewrite_portfolio_name]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1426,7 +1426,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite_n',
         'settings'   => 'themename_theme_options[mt_rewrite_portfolio_name]',
     ));
-     
+
     $wp_customize->add_setting('themename_theme_options[mt_rewrite_causes_name]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1437,7 +1437,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite_n',
         'settings'   => 'themename_theme_options[mt_rewrite_causes_name]',
     ));
-    
+
      $wp_customize->add_setting('themename_theme_options[mt_rewrite_services_name]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1448,7 +1448,7 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite_n',
         'settings'   => 'themename_theme_options[mt_rewrite_services_name]',
     ));
-    
+
      $wp_customize->add_setting('themename_theme_options[mt_rewrite_doctor_name]', array(
         'default'        => '',
         'capability'     => 'edit_theme_options',
@@ -1459,30 +1459,30 @@ function themename_customize_register($wp_customize){
         'section'    => 'themename_rewrite_n',
         'settings'   => 'themename_theme_options[mt_rewrite_doctor_name]',
     ));
-    
 
-   
- 
+
+
+
 }
- 
+
 add_action('customize_register', 'themename_customize_register');
 
 $mt_options = get_option("themename_theme_options");
-		 
-if($mt_options['mt_responsive']=='responsive_no') {  
-	
-	$col_2 = " col-xs-2 col-sm-2 ";	
-	$col_3 = " col-xs-3 col-sm-3 ";		
+
+if($mt_options['mt_responsive']=='responsive_no') {
+
+	$col_2 = " col-xs-2 col-sm-2 ";
+	$col_3 = " col-xs-3 col-sm-3 ";
 	$col_4 = " col-xs-4 col-sm-4 ";
 	$col_5 = " col-xs-5 col-sm-5 ";
 	$col_6 = " col-xs-6 col-sm-6 ";
 	$col_7 = " col-xs-7 col-sm-7 ";
 	$col_8 = " col-xs-8 col-sm-8 ";
 	$col_9 = " col-xs-9 col-sm-9 ";
-	$col_10 = " col-xs-10 col-sm-10 ";	
-		
+	$col_10 = " col-xs-10 col-sm-10 ";
+
 } else {
-	
+
 	$col_2 = "";
 	$col_3 = "";
 	$col_4 = "";
@@ -1492,8 +1492,8 @@ if($mt_options['mt_responsive']=='responsive_no') {
 	$col_8 = "";
 	$col_9 = "";
 	$col_10 = "";
-	
+
 }
-  
+
 
 ?>
